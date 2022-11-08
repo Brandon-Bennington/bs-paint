@@ -15,7 +15,8 @@
  * To make the second one happen, the number to change
  * is the first argument to `repeat`, currently set at 10.
  */
-const gridWidth = 10;
+const gridWidth = 50;
+const gridHeight = 50;
 let count = 0;
 while (count <= gridWidth * gridWidth) {
   const canvas = document.querySelector('.canvas');
@@ -24,6 +25,9 @@ while (count <= gridWidth * gridWidth) {
   canvas.appendChild(div);
   count++;
 }
+
+
+
 
 // You probably should NOT do these in the order below.
 // That is, you probably should NOT do all the queries,
@@ -49,7 +53,19 @@ while (count <= gridWidth * gridWidth) {
 // Add queries for all your squares, palette colors, and brush here.
 // (Note the singular or plural used in that sentence!)
 
+let brush = document.querySelector('.current-brush');
 
+let palette = document.querySelectorAll('.palette div');
+
+let canvasSquares = document.querySelectorAll('.canvas div');
+
+let app = document.querySelector('.app');
+
+let isMouseDown = false;
+
+let canvas = document.querySelector('canvas');
+
+let doubleclick = false;
 
 /****************************
  * EVENT LISTENER FUNCTIONS *
@@ -63,6 +79,50 @@ while (count <= gridWidth * gridWidth) {
 
 
 
+app.addEventListener('mousedown', function(){
+  console.log('Mouse is down');
+  isMouseDown = true;
+})
+
+app.addEventListener('mouseup', function(){
+  console.log('Mouse is up');
+  isMouseDown = false
+})
+
+brush.addEventListener('click', function(){
+  console.log('brush!');
+})
+
+
+
+for(let i = 0; i < palette.length; i++){
+  palette[i].addEventListener('click', function(){
+    console.log(palette[i].classList);
+
+    brush.classList.replace(brush.classList[1], palette[i].classList[1]);// try to change paint brush icon
+  })
+}
+
+for(let i = 0; i < canvasSquares.length; i++){
+    canvasSquares[i].addEventListener('click', function(){
+      canvasSquares[i].classList.replace(canvasSquares[i].classList[1], brush.classList[1])
+    })
+  }
+
+for(let square of canvasSquares){
+  square.addEventListener('mouseover', function(){
+    if(isMouseDown === true){
+    square.classList.replace(square.classList[1], brush.classList[1]);
+    }})
+
+  }
+  
+  
+
+//mousedown -checks if user left clicks and holds 
+//mouseup- checks for when user releases that left click
+
+
 /**************************
  * WIRING IT ALL TOGETHER *
 **************************/
@@ -71,3 +131,4 @@ while (count <= gridWidth * gridWidth) {
 // You'll need to add the appropriate event listener for each
 // square and for each palette color from the functions you
 // wrote above.
+
